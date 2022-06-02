@@ -4,7 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
-    id 'kotlin-parcelize'
+    id 'kotlin-android-extensions'
 }
 
 android {
@@ -115,6 +115,10 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     annotationProcessor "com.github.bumptech.glide:compiler:$glide_version"
 
+    // unsplash-photopicker-android
+    implementation 'com.github.unsplash:unsplash-photopicker-android:1.0.1'
+    // Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
     // Timber
     implementation 'com.jakewharton.timber:timber:5.0.1'
