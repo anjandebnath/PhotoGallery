@@ -70,7 +70,7 @@ class PhotosFragment : Fragment(){
 
         // pass argument to the next fragment
         adapter.clickListener.onItemClick = {
-            findNavController().navigate(PhotosFragmentDirections.actionMovieIdToDetails(it.id))
+            findNavController().navigate(PhotosFragmentDirections.actionMovieIdToDetails(it.urls.full))
         }
     }
 
