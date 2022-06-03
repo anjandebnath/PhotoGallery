@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main"
+    app:startDestination="@id/photo_list">
+
+    <fragment
+        android:id="@+id/photo_list"
+        android:name="com.assignment.photogallery.views.photos.PhotosFragment"
+        tools:layout="@layout/fragment_photos">
+        <action
+            android:id="@+id/action_movie_id_to_details"
+            app:destination="@id/photo_details">
+            <argument
+                android:name="photoId"
+                app:argType="string"/>
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/photo_details"
+        android:name="com.assignment.photogallery.views.photo_detail.PhotoDetailsFragment"
+        tools:layout="@layout/fragment_details">
+        <argument
+            android:name="photoId"
+            app:argType="string" />
+            <!--  pass data to fragment      -->
+    </fragment>
+
+</navigation>
+

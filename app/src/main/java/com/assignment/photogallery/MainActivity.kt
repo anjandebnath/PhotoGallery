@@ -1,15 +1,14 @@
 package com.assignment.photogallery
 
-import android.app.Activity
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.Toast
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.unsplash.pickerandroid.photopicker.data.UnsplashPhoto
-import com.unsplash.pickerandroid.photopicker.presentation.UnsplashPickerActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity(R.layout.activity_main)
+
+// THis code for android sdk usage
+/*
 class MainActivity : AppCompatActivity() {
     private lateinit var mAdapter: PhotoAdapter
 
@@ -29,7 +28,8 @@ class MainActivity : AppCompatActivity() {
             startActivityForResult(
                 UnsplashPickerActivity.getStartingIntent(
                     this,
-                    !main_single_radio_button.isChecked
+//                    !main_single_radio_button.isChecked
+                false
                 ), REQUEST_CODE
             )
         }
@@ -52,4 +52,4 @@ class MainActivity : AppCompatActivity() {
         // dummy request code to identify the request
         private const val REQUEST_CODE = 123
     }
-}
+}*/

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.assignment.photogallery.model.PhotosResponseApiItem" />
+
+        <variable
+            name="clickListener"
+            type="com.assignment.photogallery.views.photos.ClickListener" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        style="@style/CardView.Light"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="@android:color/white"
+        android:layout_margin="10dp"
+        android:onClick="@{() -> clickListener.onClick(data)}"
+        app:cardElevation="8dp">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/image"
+            app:imageUrl="@{data.urls.small}"
+            android:layout_width="match_parent"
+            android:scaleType="centerCrop"
+            android:layout_height="200dp"
+            tools:background="@tools:sample/backgrounds/scenic"/>
+
+
+    </androidx.cardview.widget.CardView>
+
+</layout>
