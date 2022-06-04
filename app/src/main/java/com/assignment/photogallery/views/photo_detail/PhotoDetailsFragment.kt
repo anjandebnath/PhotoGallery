@@ -4,19 +4,21 @@ import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues
 import android.content.DialogInterface
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -46,6 +48,8 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
     private val binding get() = _binding!!
 
     lateinit var permissionHelper: PermissionHelper
+    var isSave :Boolean?= false
+    var isShare :Boolean?= false
 
 
     override fun onCreateView(
@@ -77,6 +81,8 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
         viewModel.photoUrl = args.photoId
 
         imgSave?.setOnClickListener {
+            isSave = true
+            isShare = false
             permissionHelper.checkForMultiplePermissions(
                 arrayOf(
                     Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -88,20 +94,63 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
 
 
         imgShare?.setOnClickListener {
-            lifecycleScope.launch {
+            isSave = false
+            isShare = true
+            permissionHelper.checkForMultiplePermissions(
+                arrayOf(
+                    Manifest.permission.READ_EXTERNAL_STORAGE,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                )
+            )
 
-                val loader = ImageLoader(requireContext())
-                val request = ImageRequest.Builder(requireContext())
-                    .data(args.photoId)
-                    .allowHardware(false) // Disable hardware bitmaps.
-                    .build()
-
-                val result = (loader.execute(request) as SuccessResult).drawable
-                val bitmap = (result as BitmapDrawable).bitmap
-                Log.e("Bitmap", bitmap.toString())
-            }
         }
 
+    }
+
+    companion object {
+        const val SHARED_FILE_NAME = "share_screenshot.png"
+        private const val CACHE_DIRECTORY = "our_screenshots/"
+    }
+
+    private val shareResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+        // Optional - called as soon as the user selects an option from the system share dialog
+    }
+
+
+    private fun shareBitmap(bitmap: Bitmap) {
+
+        val cachePath = File(requireActivity().externalCacheDir, CACHE_DIRECTORY)
+        cachePath.mkdirs()
+
+        val screenshotFile = File(cachePath, SHARED_FILE_NAME).also { file ->
+            FileOutputStream(file).use { fileOutputStream -> bitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream) }
+        }.apply {
+            deleteOnExit()
+        }
+
+        val shareImageFileUri: Uri = FileProvider.getUriForFile(requireActivity(), requireContext().applicationContext.packageName + ".provider", screenshotFile)
+        val shareMessage: String = "Unsplash Image to be shared"
+
+        // Create the intent
+        val intent = Intent(Intent.ACTION_SEND).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            putExtra(Intent.EXTRA_STREAM, shareImageFileUri)
+            putExtra(Intent.EXTRA_TEXT, shareMessage)
+            type = "image/png"
+        }
+
+
+        // Initialize the share chooser
+        val chooserTitle: String = "Share your image!"
+        val chooser = Intent.createChooser(intent, chooserTitle)
+        val resInfoList: List<ResolveInfo> = requireContext().packageManager.queryIntentActivities(chooser, PackageManager.MATCH_DEFAULT_ONLY)
+        for (resolveInfo in resInfoList) {
+            val packageName: String = resolveInfo.activityInfo.packageName
+            requireContext().grantUriPermission(packageName, shareImageFileUri, Intent.FLAG_GRANT_WRITE_URI_PERMISSION or Intent.FLAG_GRANT_READ_URI_PERMISSION)
+        }
+
+        shareResult.launch(chooser)
     }
 
 
@@ -155,8 +204,28 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
 
     override fun isPermissionGranted(isGranted: Boolean) {
         if(isGranted){
-            Toast.makeText(requireContext(), "Permission Granted", Toast.LENGTH_SHORT).show()
-            storageSave()
+            binding.progressBar.visibility = View.VISIBLE
+            if (isSave!!){
+                storageSave()
+            }
+
+            if(isShare!!){
+                lifecycleScope.launch {
+
+                    val loader = ImageLoader(requireContext())
+                    val request = ImageRequest.Builder(requireContext())
+                        .data(args.photoId)
+                        .allowHardware(false) // Disable hardware bitmaps.
+                        .build()
+
+                    val result = (loader.execute(request) as SuccessResult).drawable
+                    val bitmap = (result as BitmapDrawable).bitmap
+                    //Log.e("Bitmap", bitmap.toString())
+                    binding.progressBar.visibility = View.GONE
+                    shareBitmap(bitmap)
+                }
+            }
+
         }
     }
 
@@ -187,6 +256,7 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
         }
         fos?.use {
             bitmap?.compress(Bitmap.CompressFormat.JPEG, 100, it)
+            binding.progressBar.visibility = View.GONE
             Toast.makeText(context, "Saved to Gallery", Toast.LENGTH_SHORT).show()
         }
     }
