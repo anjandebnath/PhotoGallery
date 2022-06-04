@@ -12,9 +12,7 @@ import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.*
 import android.provider.MediaStore
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -72,6 +70,7 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
         permissionHelper =  PermissionHelper(this, this)
     }
 
@@ -80,7 +79,18 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
 
         viewModel.photoUrl = args.photoId
 
-        imgSave?.setOnClickListener {
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle action bar item clicks here.
+        val id = item.getItemId()
+
+        if (id == R.id.action_save) {
             isSave = true
             isShare = false
             permissionHelper.checkForMultiplePermissions(
@@ -89,11 +99,9 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             )
+            return true
         }
-
-
-
-        imgShare?.setOnClickListener {
+        if (id == R.id.action_share) {
             isSave = false
             isShare = true
             permissionHelper.checkForMultiplePermissions(
@@ -102,8 +110,10 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 )
             )
-
+            return true
         }
+
+        return super.onOptionsItemSelected(item)
 
     }
 
