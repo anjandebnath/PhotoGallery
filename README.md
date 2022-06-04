@@ -6,7 +6,7 @@ a simple Android app that displays a list of photos as a gallery. Users can tap 
   gallery of photos
 - [x] The user can tap the photo and can see a full-screen view of the photo
 - [x] The user has an infinite scroll on the gallery screen
-- [ ] Unit tests
+- [x] Unit tests
 - [x] The app’s flavor/scheme can be changed easily so that changing from development API
   to production API becomes trivial
 - [x] Cache images

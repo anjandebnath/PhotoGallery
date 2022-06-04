@@ -21,13 +21,44 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    flavorDimensions "ice_cream"
+    productFlavors {
+        VanillaFlavor {
+            applicationId "com.assignment.vanillagallery"
+            dimension "ice_cream"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        ChocolateFlavor {
+            applicationId "com.assignment.chocolategallery"
+            dimension "ice_cream"
+            versionCode 1
+            versionName "1.0"
+        }
+
+        StrawberryFlavor {
+            applicationId "com.assignment.strawberrygallery"
+            dimension "ice_cream"
+            versionCode 1
+            versionName "1.0"
+        }
+    }
+
     def localProperties = new Properties()
     localProperties.load(new FileInputStream(rootProject.file("local.properties")))
 
     buildTypes {
         debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
             buildConfigField("String", "ACCESS_KEY", "\"" + localProperties['AccessKey'] + "\"")
             buildConfigField("String", "SECRET_KEY", "\"" + localProperties['SecretKey'] + "\"")
+        }
+
+        beta{
+            applicationIdSuffix ".beta"
+            versionNameSuffix "-beta"
         }
         release {
             minifyEnabled false
