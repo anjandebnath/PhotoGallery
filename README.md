@@ -18,3 +18,7 @@ a simple Android app that displays a list of photos as a gallery. Users can tap 
 Gallery             |  Full Screen          |  Zoom View
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Gallery](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221646_PhotoGallery.jpg)  |  ![Detail](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221724_PhotoGallery.jpg) |  ![Zoom](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221730_PhotoGallery.jpg)
+
+Save to Gallery             |  Gallery View          |  Share Option
+:-------------------------:|:-------------------------:|:-------------------------:
+![Gallery](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221746_Permission%20controller.jpg)  |  ![Detail](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-222213_Gallery.jpg) |  ![Share](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221824_Android%20System.jpg)
