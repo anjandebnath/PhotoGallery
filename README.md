@@ -15,7 +15,7 @@ a simple Android app that displays a list of photos as a gallery. Users can tap 
 - [x] Allow sharing the photo
 
 ## Output from Samsung Galaxy Note 10
-Gallery             |  Full Screen          |  Zoom View
+List of Image             |  Full Screen          |  Zoom View
 :-------------------------:|:-------------------------:|:-------------------------:
 ![Gallery](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221646_PhotoGallery.jpg)  |  ![Detail](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221724_PhotoGallery.jpg) |  ![Zoom](https://github.com/anjandebnath/PhotoGallery/blob/main/ScreenShot/Screenshot_20220604-221730_PhotoGallery.jpg)
 
