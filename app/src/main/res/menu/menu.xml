@@ -9,6 +9,8 @@
         android:title="Save Image"/>
     <item
         android:id="@+id/action_share"
+        android:icon="@drawable/ic_share"
+        app:showAsAction="ifRoom"
         android:title="Share Image"/>
 
 </menu>
