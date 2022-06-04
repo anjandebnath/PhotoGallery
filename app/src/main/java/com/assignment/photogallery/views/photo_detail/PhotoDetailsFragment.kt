@@ -41,8 +41,6 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
     private val args: PhotoDetailsFragmentArgs by navArgs()
 
     private var _binding: FragmentDetailsBinding? = null
-    private var imgSave: ImageView? = null
-    private var imgShare: ImageView? = null
     private val binding get() = _binding!!
 
     lateinit var permissionHelper: PermissionHelper
