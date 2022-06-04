@@ -63,8 +63,8 @@ class PhotoDetailsFragment : Fragment() , PermissionListener {
         )
 
         binding.viewModel = viewModel
-        imgSave = binding.imgSave
-        imgShare = binding.imgShare
+//        imgSave = binding.imgSave
+//        imgShare = binding.imgShare
         binding.lifecycleOwner = viewLifecycleOwner
 
         return binding.root
